@@ -11,7 +11,10 @@ function App() {
 
     const fetchWeather = async () => {
       try {
-        const weatherData = await weatherApi.getCurrentWeather(55.7522, 37.6156);
+        const weatherData = await weatherApi.getCurrentWeather(
+          55.7522,
+          37.6156
+        );
         setCurrentWeather(weatherData);
       } catch (error) {
         console.error("Ошибка при загрузке данных о погоде:", error);

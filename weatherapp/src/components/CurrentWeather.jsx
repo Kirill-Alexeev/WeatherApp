@@ -7,12 +7,72 @@ function CurrentWeather(props) {
     return <div>Загрузка данных...</div>;
   }
 
+  function getDescriptionOfWeather(weatherCode) {
+    const descriptions = {
+      0: "Без осадков",
+      1: "Преимущественно ясно",
+      2: "Переменная облачность",
+      3: "Пасмурно",
+      45: "Туман",
+      48: "Осаждающийся инейный туман",
+      51: "Легкая морось",
+      53: "Умеренная морось",
+      55: "Плотная морось",
+      56: "Легкая морозная морось",
+      57: "Плотная морозная морось",
+      61: "Небольшой дождь",
+      63: "Умеренный дождь",
+      65: "Сильный дождь",
+      66: "Небольшой ледяной дождь",
+      67: "Сильный ледяной дождь",
+      71: "Небольшой снегопад",
+      73: "Умеренный снегопад",
+      75: "Сильный снегопад",
+      77: "Град",
+      80: "Слабый дождевой ливень",
+      81: "Умеренный дождевой ливень",
+      82: "Сильный дождевой ливень",
+      85: "Небольшой снегопад",
+      86: "Сильный снегопад",
+      95: "Гроза",
+      96: "Гроза с дождём",
+      97: "Гроза с сильным дождём",
+    };
+
+    return descriptions[weatherCode];
+  }
+
   const stats = [
-    { title: "Влажность", value: currentWeather.humidity, icon: '', symbol: '%'},
-    { title: "Давление", value: currentWeather.pressure, icon: '', symbol: 'мм рт. ст.' },
-    { title: "Облачность", value: currentWeather.cloudiness, icon: '', symbol: '%' },
-    { title: "Осадки", value: currentWeather.precipitation, icon: '', symbol: 'мм' },
-    { title: "Ветер", value: currentWeather.windSpeed, icon: '', symbol: 'км/ч' },
+    {
+      title: "Влажность",
+      value: currentWeather.humidity,
+      icon: "",
+      symbol: "%",
+    },
+    {
+      title: "Давление",
+      value: currentWeather.pressure,
+      icon: "",
+      symbol: "мм рт. ст.",
+    },
+    {
+      title: "Облачность",
+      value: currentWeather.cloudiness,
+      icon: "",
+      symbol: "%",
+    },
+    {
+      title: "Осадки",
+      value: currentWeather.precipitation,
+      icon: "",
+      symbol: "мм",
+    },
+    {
+      title: "Ветер",
+      value: currentWeather.windSpeed,
+      icon: "",
+      symbol: "км/ч",
+    },
   ];
 
   const formattedDate = currentWeather.date.toLocaleDateString("ru-RU", {
@@ -39,7 +99,9 @@ function CurrentWeather(props) {
             {currentWeather.temp}
             <span className="celcius">°C</span>
           </p>
-          <p className="current__description">{currentWeather.weatherCode}</p>
+          <p className="current__description">
+            {getDescriptionOfWeather(currentWeather.weatherCode)}
+          </p>
         </div>
       </div>
       <ul className="current__stats">
@@ -50,7 +112,10 @@ function CurrentWeather(props) {
                 <img src={stat.icon} alt="" className="current__icon" />
                 <p className="current__desc">{stat.title}</p>
               </div>
-              <p className="current__value">{stat.value}{stat.symbol}</p>
+              <p className="current__value">
+                {stat.value}
+                {stat.symbol}
+              </p>
             </li>
           );
         })}
