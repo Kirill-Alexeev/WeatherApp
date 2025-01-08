@@ -4,10 +4,11 @@ import Header from "./components/Header";
 import CurrentWeather from "./components/CurrentWeather";
 
 function App() {
-  const weatherApi = new WeatherApi();
   let [currentWeather, setCurrentWeather] = useState(null);
 
   useEffect(() => {
+    const weatherApi = new WeatherApi();
+
     const fetchWeather = async () => {
       try {
         const weatherData = await weatherApi.getCurrentWeather(55.7522, 37.6156);
@@ -19,7 +20,7 @@ function App() {
     };
 
     fetchWeather();
-  });
+  }, []);
 
   return (
     <>

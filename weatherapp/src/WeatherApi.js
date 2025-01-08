@@ -1,6 +1,14 @@
 import { fetchWeatherApi } from "openmeteo";
 
 class WeatherApi {
+  roundToOneDecimal(value) {
+    return Math.round(value * 10) / 10;
+  }
+
+  convertPressure(pressure) {
+    return Math.round(pressure * 0.75006375541921);
+  }
+
   async getCurrentWeather(latitude, longitude) {
     try {
       const params = {
@@ -9,14 +17,11 @@ class WeatherApi {
         current: [
           "temperature_2m",
           "relative_humidity_2m",
-          "apparent_temperature",
           "is_day",
           "precipitation",
-          "rain",
-          "snowfall",
           "weather_code",
           "cloud_cover",
-          "surface_pressure",
+          "pressure_msl",
           "wind_speed_10m",
         ],
         timeformat: "unixtime",
@@ -26,19 +31,18 @@ class WeatherApi {
       const response = responses[0];
       const current = response.current();
 
+      const utcOffsetSeconds = response.utcOffsetSeconds();
+
       return {
-        date: new Date(current.time * 1000),
-        temp: current.variables(0).value(),
+        date: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
+        temp: this.roundToOneDecimal(current.variables(0).value()),
         humidity: current.variables(1).value(),
-        apparentTemp: current.variables(2).value(),
-        isDay: current.variables(3).value(),
-        precipitation: current.variables(4).value(),
-        rain: current.variables(5).value(),
-        snowfall: current.variables(6).value(),
-        weatherCode: current.variables(7).value(),
-        pressure: current.variables(8).value(),
-        cloudiness: current.variables(9).value(),
-        windSpeed: current.variables(10).value(),
+        isDay: current.variables(2).value(),
+        precipitation: this.roundToOneDecimal(current.variables(3).value()),
+        weatherCode: current.variables(4).value(),
+        cloudiness: current.variables(5).value(),
+        pressure: this.convertPressure(current.variables(6).value()),
+        windSpeed: this.roundToOneDecimal(current.variables(7).value()),
       };
     } catch (error) {
       console.error("Ошибка при получении текущей погоды:", error);
@@ -54,12 +58,9 @@ class WeatherApi {
         hourly: [
           "temperature_2m",
           "relative_humidity_2m",
-          "apparent_temperature",
           "precipitation_probability",
-          "rain",
-          "snowfall",
           "weather_code",
-          "surface_pressure",
+          "pressure_msl",
           "cloud_cover",
           "wind_speed_10m",
         ],
@@ -73,16 +74,13 @@ class WeatherApi {
 
       return {
         time: hourly.time.map((timestamp) => new Date(timestamp * 1000)),
-        temp: hourly.temperature_2m,
-        humidity: hourly.relative_humidity_2m,
-        apparentTemp: hourly.apparent_temperature,
-        precipitation: hourly.precipitation_probability,
-        rain: hourly.rain,
-        snowfall: hourly.snowfall,
-        weatherCode: hourly.weather_code.map(this.getWeatherDescription),
-        pressure: hourly.surface_pressure,
-        cloudiness: hourly.cloud_cover,
-        windSpeed: hourly.wind_speed_10m,
+        temp: this.roundToOneDecimal(hourly.variables(0).valuesArray()),
+        humidity: hourly.variables(1).valuesArray(),
+        precipitation: this.roundToOneDecimal(hourly.variables(2).valuesArray()),
+        weatherCode: hourly.variables(3).valuesArray(),
+        pressure: this.convertPressure(hourly.variables(4).valuesArray()),
+        cloudiness: hourly.variables(5).valuesArray(),
+        windSpeed: this.roundToOneDecimal(hourly.variables(6).valuesArray()),
       };
     } catch (error) {
       console.error("Ошибка при получении почасового прогноза:", error);
