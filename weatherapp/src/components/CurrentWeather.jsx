@@ -7,6 +7,20 @@ function CurrentWeather(props) {
     return <div>Загрузка данных...</div>;
   }
 
+  function getCloudinessDescription(cloudiness) {
+    if (cloudiness === 0) {
+      return "Ясно";
+    } else if (cloudiness >= 1 && cloudiness <= 30) {
+      return "Незначительная";
+    } else if (cloudiness >= 31 && cloudiness <= 60) {
+      return "Средняя";
+    } else if (cloudiness >= 61 && cloudiness <= 95) {
+      return "Сильная";
+    } else if (cloudiness >= 96 && cloudiness <= 100) {
+      return "Сплошная";
+    }
+  }
+
   function getDescriptionOfWeather(weatherCode) {
     const descriptions = {
       0: "Без осадков",
@@ -57,9 +71,9 @@ function CurrentWeather(props) {
     },
     {
       title: "Облачность",
-      value: currentWeather.cloudiness,
+      value: getCloudinessDescription(currentWeather.cloudiness),
       icon: "",
-      symbol: "%",
+      symbol: "",
     },
     {
       title: "Осадки",
