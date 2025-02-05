@@ -1,1 +1,10 @@
-@import "base/reset"
+@use "base/reset";
+@use "base/base";
+@use "layout/header";
+@use "layout/footer";
+@use "layout/current_weather";
+@use "layout/hourly_weather";
+@use "layout/forecast_list";
+@use "layout/forecast_item";
+@use "components/buttons";
+@use "components/forms";

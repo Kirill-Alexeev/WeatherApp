@@ -103,7 +103,7 @@ function CurrentWeather(props) {
   return (
     <div className="current">
       <div className="current__head">
-        <h2 className="current__place">Москва</h2>
+        <h2 className="current__place">Москва, Россия</h2>
         <p className="current__date">{capitalizeFirstLetter(formattedDate)}</p>
       </div>
       <div className="current__weather">
