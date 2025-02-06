@@ -1,4 +1,10 @@
 import React from "react";
+import cludyIcon from "../img/icons/weather_icons/cludy_icon.svg";
+import humidityIcon from '../img/icons/stats_icons/humidity_light.svg';
+import pressureIcon from '../img/icons/stats_icons/pressure_light.svg';
+import cloudinessIcon from '../img/icons/stats_icons/cloud_light.svg';
+import precipitationIcon from '../img/icons/stats_icons/precipitation_light.svg';
+import windIcon from '../img/icons/stats_icons/wind_light.svg';
 
 function CurrentWeather(props) {
   const { currentWeather } = props;
@@ -60,31 +66,31 @@ function CurrentWeather(props) {
     {
       title: "Влажность",
       value: currentWeather.humidity,
-      icon: "",
+      icon: humidityIcon,
       symbol: "%",
     },
     {
       title: "Давление",
       value: currentWeather.pressure,
-      icon: "",
+      icon: pressureIcon,
       symbol: "мм рт. ст.",
     },
     {
       title: "Облачность",
       value: getCloudinessDescription(currentWeather.cloudiness),
-      icon: "",
+      icon: cloudinessIcon,
       symbol: "",
     },
     {
       title: "Осадки",
       value: currentWeather.precipitation,
-      icon: "",
+      icon: precipitationIcon,
       symbol: "мм",
     },
     {
       title: "Ветер",
       value: currentWeather.windSpeed,
-      icon: "",
+      icon: windIcon,
       symbol: "км/ч",
     },
   ];
@@ -107,7 +113,7 @@ function CurrentWeather(props) {
         <p className="current__date">{capitalizeFirstLetter(formattedDate)}</p>
       </div>
       <div className="current__weather">
-        <img src="" alt="Иконка погоды" className="current__img" />
+        <img src={cludyIcon} alt="Иконка погоды" className="current__img" />
         <div className="current__temp">
           <p className="current__temperature">
             {currentWeather.temp}
